@@ -8,11 +8,13 @@ Aplicación web para la Cerrajería El Tubo La 14: ventas con corte de material,
 
 - PostgreSQL
 - Express
-- Frontend (por definir)
+- Next.js + Tailwind (frontend)
 
 ## Estructura
 
 - `database/`: scripts de la base de datos.
+- `backend/`: API REST del catálogo (puerto 5000).
+- `frontend/`: interfaz del catálogo que consume el backend (puerto 3000).
 
 ## Integrantes
 

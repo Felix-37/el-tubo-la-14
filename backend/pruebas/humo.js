@@ -1,7 +1,7 @@
 // Prueba de humo: recorre los 20 endpoints con casos exitosos y fallidos.
 // Uso: con la API corriendo (npm start), ejecutar npm test.
 // Crea sus propios registros y los borra al final, así la base queda igual.
-const BASE = process.env.API_URL || 'http://localhost:3000/api';
+const BASE = process.env.API_URL || 'http://localhost:5000/api';
 
 let fallos = 0;
 

@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* Colores de El Tubo La 14: rojo de la marca y grises neutros. */
+@theme {
+  --color-primary: #c1121f;
+  --color-primary-dark: #9b0e19;
+  --color-primary-soft: #fdecee;
+  --color-foreground: #1b1d21;
+  --color-muted: #5b616b;
+  --color-background: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-border: #dde0e5;
+  --color-sidebar: #1f2328;
+  --color-accent: #b45309;
+  --color-accent-soft: #fef3c7;
+  --color-success: #15803d;
+  --color-success-soft: #dcfce7;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* Clases que se repiten en todos los formularios y tablas. */
+@layer components {
+  .campo {
+    @apply w-full rounded-md border border-border bg-surface px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20;
+  }
+  .etiqueta {
+    @apply mb-1 block text-sm font-medium text-muted;
+  }
+  .boton-primario {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .boton-secundario {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-border bg-surface px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-background;
+  }
+  .boton-peligro {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-primary-dark px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .tabla th {
+    @apply bg-background px-4 py-3 text-left text-xs font-semibold tracking-wide whitespace-nowrap text-muted uppercase;
+  }
+  .tabla td {
+    @apply border-t border-border px-4 py-3 text-sm;
+  }
+}
