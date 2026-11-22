@@ -1,9 +1,16 @@
 const servicio = require('../services/presentaciones.service');
 
+// El costo (y con él el margen) es información interna: solo la recibe el ADMIN.
+function paraRol(presentacion, rol) {
+  if (rol === 'ADMIN') return presentacion;
+  const { costo, ...publica } = presentacion;
+  return publica;
+}
+
 async function listar(req, res, next) {
   try {
     const datos = await servicio.listar();
-    res.status(200).json({ ok: true, data: datos });
+    res.status(200).json({ ok: true, data: datos.map((p) => paraRol(p, req.usuario.rol)) });
   } catch (error) {
     next(error);
   }
@@ -12,7 +19,7 @@ async function listar(req, res, next) {
 async function obtener(req, res, next) {
   try {
     const presentacion = await servicio.obtener(req.params.id);
-    res.status(200).json({ ok: true, data: presentacion });
+    res.status(200).json({ ok: true, data: paraRol(presentacion, req.usuario.rol) });
   } catch (error) {
     next(error);
   }

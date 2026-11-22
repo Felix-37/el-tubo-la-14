@@ -76,6 +76,9 @@ const sinHash = (j) => !JSON.stringify(j).includes('hash');
   console.log('--- Autorización (403)');
   await caso('cajero consulta catálogo', 'GET', '/productos', { token: cajero }, 200);
   await caso('cliente consulta catálogo', 'GET', '/calibres/1', { token: cliente }, 200);
+  await caso('el costo solo lo ve el admin', 'GET', '/presentaciones/1', { token: admin }, 200, (r) => 'costo' in r.data);
+  await caso('cajero no recibe el costo', 'GET', '/presentaciones', { token: cajero }, 200, (r) => r.data.every((p) => !('costo' in p)));
+  await caso('cliente no recibe el costo', 'GET', '/presentaciones/1', { token: cliente }, 200, (r) => !('costo' in r.data));
   await caso('cajero crea categoría', 'POST', '/categorias', { token: cajero, body: { nombre: 'No debe' } }, 403,
     (r) => r.error.detalle.rolesPermitidos.includes('ADMIN'));
   await caso('cliente elimina producto', 'DELETE', '/productos/1', { token: cliente }, 403);

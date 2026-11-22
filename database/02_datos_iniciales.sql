@@ -137,7 +137,7 @@ INSERT INTO cliente (nombre, documento, telefono, clasificacion, cupo_credito, t
   ('Cliente ocasional de prueba', NULL, NULL,  'OCASIONAL', 0,       0);
 
 INSERT INTO usuario (nombre_usuario, nombre_completo, rol_codigo, cliente_id, hash_clave) VALUES
-  ('admin',   'Administrador El Tubo La 14', 'ADMIN',   NULL, crypt('Admin123*',   gen_salt('bf', 10))),
+  ('admin',   'Administrador El Tubo La 14', 'ADMIN',   NULL, crypt(encode(gen_random_bytes(32), 'hex'), gen_salt('bf', 10))),
   ('cajero',  'Cajero de mostrador',         'CAJERO',  NULL, crypt('Cajero123*',  gen_salt('bf', 10))),
   ('ramirez', 'Carlos Ramírez',              'CLIENTE',
      (SELECT cliente_id FROM cliente WHERE documento = '1144000111'),

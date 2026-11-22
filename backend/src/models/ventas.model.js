@@ -117,7 +117,7 @@ async function cargarCartera(clienteId, valor, ventaId, usuarioId, numero, clien
   await cliente.query(
     `INSERT INTO movimiento_cartera (cliente_id, tipo, valor, venta_id, usuario_id, observacion)
      VALUES ($1, 'CARGO', $2, $3, $4, $5)`,
-    [clienteId, valor, ventaId, usuarioId, `Venta a crédito N.° ${numero}`],
+    [clienteId, valor, ventaId, usuarioId, `Venta a crédito N.º ${numero}`],
   );
 }
 
