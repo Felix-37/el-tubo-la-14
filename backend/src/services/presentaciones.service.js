@@ -36,6 +36,9 @@ async function crear(body) {
 async function actualizar(idTexto, body) {
   const id = validarId(idTexto);
   const datos = validarBody(body, REGLAS);
+  // La existencia la mueven las ventas. Si el formulario no la envía, se deja
+  // la que hay (null = no cambiar) en lugar de ponerla en 0.
+  if (body.existencia === undefined) datos.existencia = null;
   const presentacion = await modelo.actualizar(id, datos);
   if (!presentacion) throw new HttpError(404, `No existe la presentación con id ${id}`);
   return presentacion;

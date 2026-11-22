@@ -10,7 +10,7 @@ function validarId(valor) {
 }
 
 // Revisa el body contra unas reglas y devuelve solo los campos permitidos.
-// Cada regla: { tipo: 'texto' | 'numero' | 'entero' | 'booleano', requerido, max, min }.
+// Cada regla: { tipo: 'texto' | 'numero' | 'entero' | 'booleano', requerido, max, min, decimales }.
 function validarBody(body, reglas) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     throw new HttpError(400, 'El cuerpo de la solicitud debe ser un objeto JSON');
@@ -39,6 +39,8 @@ function validarBody(body, reglas) {
         errores.push(`El campo "${campo}" debe ser un número${esEntero ? ' entero' : ''}`);
       } else if (regla.min !== undefined && valor < regla.min) {
         errores.push(`El campo "${campo}" debe ser mayor o igual a ${regla.min}`);
+      } else if (regla.decimales !== undefined && Number(valor.toFixed(regla.decimales)) !== valor) {
+        errores.push(`El campo "${campo}" admite máximo ${regla.decimales} decimales`);
       } else {
         datos[campo] = valor;
       }

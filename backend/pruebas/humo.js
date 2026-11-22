@@ -1,14 +1,20 @@
 // Prueba de humo: recorre los 20 endpoints con casos exitosos y fallidos.
 // Uso: con la API corriendo (npm start), ejecutar npm test.
 // Crea sus propios registros y los borra al final, así la base queda igual.
+// Desde la Tarea 4 el catálogo exige sesión: entra como el administrador
+// del .env (ADMIN_INICIAL_USUARIO / ADMIN_INICIAL_CLAVE).
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const BASE = process.env.API_URL || 'http://localhost:5000/api';
 
 let fallos = 0;
+let token = null;
 
 async function pedir(metodo, ruta, body) {
+  const headers = body !== undefined ? { 'Content-Type': 'application/json' } : {};
+  if (token) headers.Authorization = `Bearer ${token}`;
   const res = await fetch(`${BASE}${ruta}`, {
     method: metodo,
-    headers: body !== undefined ? { 'Content-Type': 'application/json' } : {},
+    headers,
     body: body !== undefined ? (typeof body === 'string' ? body : JSON.stringify(body)) : undefined,
   });
   const json = await res.json();
@@ -26,6 +32,15 @@ async function caso(nombre, metodo, ruta, body, esperado, revisar) {
 
 (async () => {
   const sufijo = Date.now();
+
+  const sesion = await pedir('POST', '/auth/login', {
+    usuario: process.env.ADMIN_INICIAL_USUARIO, clave: process.env.ADMIN_INICIAL_CLAVE,
+  });
+  if (sesion.status !== 200) {
+    console.error('No se pudo iniciar sesión como administrador:', JSON.stringify(sesion.json));
+    process.exit(1);
+  }
+  token = sesion.json.data.accessToken;
 
   console.log('--- Categorías');
   await caso('listar', 'GET', '/categorias', undefined, 200, (j) => Array.isArray(j.data));
@@ -73,6 +88,9 @@ async function caso(nombre, metodo, ruta, body, esperado, revisar) {
     producto_id: prod.data.producto_id, referencia: `RIEL-${sufijo}`, medida: 'Barra 6 m',
     calibre_id: cal.data.calibre_id, largo_fabrica_cm: 600, precio_venta: 54000, costo: 40000, existencia: 4, existencia_minima: 2,
   }, 200);
+  await caso('actualizar sin existencia la conserva', 'PUT', `/presentaciones/${pres.data.presentacion_id}`, {
+    producto_id: prod.data.producto_id, referencia: `RIEL-${sufijo}`, precio_venta: 55000,
+  }, 200, (j) => j.data.existencia === 4);
   await caso('eliminar', 'DELETE', `/presentaciones/${pres.data.presentacion_id}`, undefined, 200);
   await caso('eliminar inexistente', 'DELETE', `/presentaciones/${pres.data.presentacion_id}`, undefined, 404);
 

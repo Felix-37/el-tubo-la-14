@@ -7,12 +7,18 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node pruebas/humo.js"
+    "test": "node pruebas/humo.js && node pruebas/auth.js && node pruebas/usuarios.js && node pruebas/ventas.js",
+    "test:auth": "node pruebas/auth.js",
+    "test:usuarios": "node pruebas/usuarios.js",
+    "seed:admin": "node src/scripts/crearAdmin.js",
+    "test:ventas": "node pruebas/ventas.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.13.1"
   }
 }

@@ -34,7 +34,9 @@ async function crear(datos) {
 
 async function actualizar(id, datos) {
   const valores = CAMPOS.map((campo) => datos[campo]);
-  const asignaciones = CAMPOS.map((campo, i) => `${campo} = $${i + 1}`).join(', ');
+  const asignaciones = CAMPOS.map((campo, i) => (campo === 'existencia'
+    ? `existencia = COALESCE($${i + 1}::integer, existencia)`
+    : `${campo} = $${i + 1}`)).join(', ');
   const { rows } = await pool.query(
     `UPDATE presentacion SET ${asignaciones} WHERE presentacion_id = $${CAMPOS.length + 1} RETURNING *`,
     [...valores, id],

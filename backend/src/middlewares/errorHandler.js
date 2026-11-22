@@ -9,6 +9,12 @@ function errorHandler(err, req, res, next) {
     err = new HttpError(400, 'El cuerpo de la solicitud no es un JSON válido');
   }
 
+  // Otros errores del lector de JSON (cuerpo muy grande, codificación no
+  // soportada) traen su propio código HTTP.
+  if (!(err instanceof HttpError) && err.expose && Number.isInteger(err.status)) {
+    err = new HttpError(err.status, err.message);
+  }
+
   const error = err instanceof HttpError ? err : traducirErrorPg(err);
 
   if (error) {
