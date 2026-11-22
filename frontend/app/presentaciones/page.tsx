@@ -8,6 +8,7 @@ import Estado from "@/components/Estado";
 import Mensaje, { type MensajeEstado } from "@/components/Mensaje";
 import Modal from "@/components/Modal";
 import Tabla from "@/components/Tabla";
+import { useSesion } from "@/components/auth/ProveedorSesion";
 import { normalizar, pesos } from "@/lib/formato";
 import type { Presentacion } from "@/lib/tipos";
 import { useDatos } from "@/lib/useDatos";
@@ -35,6 +36,8 @@ export default function PresentacionesPage() {
   const [busqueda, setBusqueda] = useState("");
   const [soloBajas, setSoloBajas] = useState(false);
   const [mensaje, setMensaje] = useState<MensajeEstado>(null);
+  // El costo es información interna: la columna solo aparece para el ADMIN.
+  const verCosto = useSesion().usuario?.rol === "ADMIN";
 
   const borrado = useEliminar<Presentacion>((p) => `/presentaciones/${p.presentacion_id}`, {
     alEliminar: (presentacion, texto) => {
@@ -80,7 +83,7 @@ export default function PresentacionesPage() {
         </label>
       </div>
       <Tabla
-        columnas={["Referencia", "Producto", "Medida", "Calibre", "Precio con IVA", "Costo", "Existencia", "Estado", "Acciones"]}
+        columnas={["Referencia", "Producto", "Medida", "Calibre", "Precio con IVA", ...(verCosto ? ["Costo"] : []), "Existencia", "Estado", "Acciones"]}
         cargando={cargando}
         vacia={filtradas.length === 0}
         textoVacia="No hay presentaciones para mostrar."
@@ -92,7 +95,7 @@ export default function PresentacionesPage() {
             <td className="whitespace-nowrap">{p.medida || "—"}</td>
             <td className="whitespace-nowrap">{p.calibre || "—"}</td>
             <td className="whitespace-nowrap">{pesos(p.precio_venta)}</td>
-            <td className="whitespace-nowrap text-muted">{pesos(p.costo)}</td>
+            {verCosto && <td className="whitespace-nowrap text-muted">{pesos(p.costo ?? 0)}</td>}
             <td>
               <Existencia p={p} />
             </td>

@@ -21,8 +21,13 @@ export default function DetallePresentacion() {
         { etiqueta: "Calibre", valor: p.calibre || "Sin calibre" },
         { etiqueta: "Largo de fábrica", valor: p.largo_fabrica_cm ? `${p.largo_fabrica_cm} cm` : "—" },
         { etiqueta: "Precio de venta con IVA", valor: pesos(p.precio_venta) },
-        { etiqueta: "Costo", valor: pesos(p.costo) },
-        { etiqueta: "Margen", valor: pesos(p.precio_venta - p.costo) },
+        // El backend solo envía el costo al ADMIN; para los demás roles no se muestra.
+        ...(p.costo !== undefined
+          ? [
+              { etiqueta: "Costo", valor: pesos(p.costo) },
+              { etiqueta: "Margen", valor: pesos(p.precio_venta - p.costo) },
+            ]
+          : []),
         {
           etiqueta: "Existencia",
           valor: (

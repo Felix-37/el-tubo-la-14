@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Eye, Pencil, Trash } from "lucide-react";
+import { useSesion } from "./auth/ProveedorSesion";
 
 type AccionesProps = { ver: string; editar: string; onEliminar: () => void };
 
@@ -7,13 +10,18 @@ const ENLACE = "inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-me
 
 // Botones de cada fila: Ver lleva al detalle (/tabla/[id]), Editar al formulario
 // (/tabla/[id]/editar) y Eliminar abre el modal de confirmación.
+// Editar y Eliminar solo los ve el ADMIN (el backend responde 403 a los demás).
 export default function Acciones({ ver, editar, onEliminar }: AccionesProps) {
+  const { usuario } = useSesion();
+  const esAdmin = usuario?.rol === "ADMIN";
   return (
     <div className="flex gap-1 whitespace-nowrap">
       <Link href={ver} className={ENLACE}>
         <Eye size={14} />
         Ver
       </Link>
+      {esAdmin && (
+        <>
       <Link href={editar} className={ENLACE}>
         <Pencil size={14} />
         Editar
@@ -26,6 +34,8 @@ export default function Acciones({ ver, editar, onEliminar }: AccionesProps) {
         <Trash size={14} />
         Eliminar
       </button>
+        </>
+      )}
     </div>
   );
 }

@@ -35,7 +35,8 @@ export type Presentacion = {
   calibre: string | null;
   largo_fabrica_cm: number | null;
   precio_venta: number;
-  costo: number;
+  // Solo llega cuando consulta el ADMIN.
+  costo?: number;
   existencia: number;
   existencia_minima: number;
   activo: boolean;

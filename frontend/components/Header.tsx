@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import UsuarioActual from "./auth/UsuarioActual";
 
 // Encabezado oscuro: el logo tiene un halo rojo que solo se ve bien sobre fondo oscuro.
 export default function Header() {
@@ -9,9 +10,10 @@ export default function Header() {
         <Image src="/brand/logo.png" alt="Logo de El Tubo La 14" width={66} height={44} priority />
         <div className="leading-tight">
           <p className="text-lg font-bold">El Tubo La 14</p>
-          <p className="text-xs text-white/60">Catálogo de productos</p>
+          <p className="hidden text-xs text-white/60 sm:block">Cerrajería · perfilería y cubiertas</p>
         </div>
       </Link>
+      <UsuarioActual />
     </header>
   );
 }

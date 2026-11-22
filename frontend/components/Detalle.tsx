@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowLeft, LoaderCircle, Pencil, Trash } from "lucide-react";
 import Boton, { BotonEnlace } from "./Boton";
 import Mensaje, { type MensajeEstado } from "./Mensaje";
+import { useSesion } from "./auth/ProveedorSesion";
 
 export type Campo = { etiqueta: string; valor: ReactNode; ancho?: boolean };
 
@@ -18,6 +21,8 @@ type DetalleProps = {
 
 // Vista de un solo registro (GET /tabla/:id) con sus botones de Editar y Eliminar.
 export default function Detalle({ titulo, volver, editar, cargando, mensaje, campos, onEliminar }: DetalleProps) {
+  const { usuario } = useSesion();
+  const esAdmin = usuario?.rol === "ADMIN";
   return (
     <div className="mx-auto max-w-3xl">
       <Link href={volver} className="mb-4 inline-flex items-center gap-1 text-sm text-muted hover:text-primary">
@@ -27,7 +32,7 @@ export default function Detalle({ titulo, volver, editar, cargando, mensaje, cam
       <div className="rounded-lg border border-border bg-surface p-6 shadow-sm md:p-8">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <h1 className="text-2xl font-bold">{titulo}</h1>
-          {campos && (
+          {campos && esAdmin && (
             <div className="flex gap-3">
               <BotonEnlace href={editar} variante="secundario" icono={Pencil}>
                 Editar

@@ -1,11 +1,14 @@
 import { Suspense } from "react";
+import RequiereRol from "@/components/auth/RequiereRol";
 import FormCalibre from "@/components/formularios/FormCalibre";
 
-// useParams necesita Suspense cuando cacheComponents está activo.
+// Solo el ADMIN crea y edita. useParams necesita Suspense cuando cacheComponents está activo.
 export default function Page() {
   return (
     <Suspense>
-      <FormCalibre />
+      <RequiereRol roles={["ADMIN"]}>
+        <FormCalibre />
+      </RequiereRol>
     </Suspense>
   );
 }

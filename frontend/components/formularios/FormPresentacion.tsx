@@ -53,7 +53,7 @@ export default function FormPresentacion() {
           calibre_id: texto(data.calibre_id),
           largo_fabrica_cm: texto(data.largo_fabrica_cm),
           precio_venta: texto(data.precio_venta),
-          costo: texto(data.costo),
+          costo: texto(data.costo ?? null),
           existencia: texto(data.existencia),
           existencia_minima: texto(data.existencia_minima),
           activo: data.activo,
