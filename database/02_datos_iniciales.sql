@@ -7,7 +7,7 @@
 --   psql -U postgres -d el_tubo_la_14 -f 02_datos_iniciales.sql
 --
 -- Usuarios de prueba (cambiar las claves antes de usarlo en serio):
---   admin   / Admin123*    rol ADMIN
+--   admin   / (la fija npm run seed:admin desde backend/.env)  rol ADMIN
 --   cajero  / Cajero123*   rol CAJERO
 --   ramirez / Cliente123*  rol CLIENTE (cerrajero Carlos Ramírez)
 -- Las claves se guardan con bcrypt (pgcrypto), el mismo formato que
