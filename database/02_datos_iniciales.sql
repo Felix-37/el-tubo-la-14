@@ -144,9 +144,11 @@ INSERT INTO usuario (nombre_usuario, nombre_completo, rol_codigo, cliente_id, ha
      crypt('Cliente123*', gen_salt('bf', 10)));
 
 -- Deuda previa del cerrajero al empezar a usar el sistema.
-INSERT INTO movimiento_cartera (cliente_id, tipo, valor, usuario_id, observacion)
+-- La fecha va fija para que coincida con la observación (sin ella toma el día en que se carga el script).
+INSERT INTO movimiento_cartera (cliente_id, tipo, valor, usuario_id, fecha, observacion)
 VALUES ((SELECT cliente_id FROM cliente WHERE documento = '1144000111'), 'SALDO_INICIAL', 180000,
-        (SELECT usuario_id FROM usuario WHERE nombre_usuario = 'admin'), 'Saldo del cuaderno al 20 sep 2026');
+        (SELECT usuario_id FROM usuario WHERE nombre_usuario = 'admin'), '2026-09-20 08:00:00-05',
+        'Saldo del cuaderno al 20 sep 2026');
 
 INSERT INTO proveedor (razon_social, nit, contacto, telefono, condiciones_pago) VALUES
   ('Distribuidora de Aceros de ejemplo S.A.S.', '900.000.000-1', 'Asesor comercial', '6020000000', 'Crédito a 30 días');

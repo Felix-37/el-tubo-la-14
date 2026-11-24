@@ -150,7 +150,8 @@ export default function PanelCaja() {
         <div>
           <h1 className="text-2xl font-bold md:text-3xl">Caja</h1>
           <p className="mt-1 text-sm text-muted">
-            {caja ? `Turno abierto desde ${fechaHora(caja.fecha_apertura)}.` : "Apertura, resumen del turno y arqueo de cierre."}
+            {/* La hora ya termina en "a. m." o "p. m.": el punto final solo se agrega si falta. */}
+            {caja ? `Turno abierto desde ${fechaHora(caja.fecha_apertura)}`.replace(/\.?$/, ".") : "Apertura, resumen del turno y arqueo de cierre."}
           </p>
         </div>
         <div className="flex flex-wrap gap-3">

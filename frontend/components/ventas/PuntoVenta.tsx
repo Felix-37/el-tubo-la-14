@@ -23,8 +23,9 @@ function entero(texto: string) {
   return /^\d+$/.test(texto.trim()) ? Number(texto) : 0;
 }
 
+// La medida se agrega solo si el nombre del producto no la trae ya ("Bisagra de cazoleta 3"").
 function nombreDe(p: Presentacion) {
-  return `${p.producto}${p.medida ? ` ${p.medida}` : ""}`;
+  return p.medida && !p.producto.includes(p.medida) ? `${p.producto} ${p.medida}` : p.producto;
 }
 
 // Ruta /ventas/nueva: punto de venta del CAJERO. Solo ventas por unidad

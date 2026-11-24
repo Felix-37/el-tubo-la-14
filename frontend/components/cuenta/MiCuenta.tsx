@@ -53,13 +53,16 @@ export default function MiCuenta() {
             <ul className="divide-y divide-border">
               {lista.map((m) => {
                 const resta = restaDeuda(m.tipo);
+                const titulo = textoMovimiento(m.tipo, m.numero_venta, m.forma_pago);
+                // Los cargos guardan "Venta a crédito N.º X" como observación: no se repite si es igual al título.
+                const nota = m.observacion && m.observacion.trim() !== titulo ? m.observacion : null;
                 return (
                   <li key={m.movimiento_id} className="flex items-start justify-between gap-4 py-3">
                     <div className="min-w-0">
                       <p className="text-sm">
-                        {fechaCorta(m.fecha)} · {textoMovimiento(m.tipo, m.numero_venta, m.forma_pago)}
+                        {fechaCorta(m.fecha)} · {titulo}
                       </p>
-                      {m.observacion && <p className="mt-0.5 text-xs break-words text-muted">{m.observacion}</p>}
+                      {nota && <p className="mt-0.5 text-xs break-words text-muted">{nota}</p>}
                     </div>
                     <span className={`shrink-0 text-sm font-bold ${resta ? "text-success" : ""}`}>
                       {resta ? `−${pesos(m.valor)}` : pesos(m.valor)}

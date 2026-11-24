@@ -67,7 +67,8 @@ async function registrar(actor, body) {
       return {
         linea: i + 1,
         presentacion_id: p.presentacion_id,
-        descripcion: `${p.producto}${p.medida ? ` ${p.medida}` : ''} (${p.referencia})`.slice(0, 200),
+        // La medida va solo si el nombre del producto no la trae ya ("Bisagra de cazoleta 3"").
+        descripcion: `${p.medida && !p.producto.includes(p.medida) ? `${p.producto} ${p.medida}` : p.producto} (${p.referencia})`.slice(0, 200),
         cantidad: l.cantidad,
         precio_unitario: p.precio_venta,
         valor: pesos(p.precio_venta * l.cantidad),
