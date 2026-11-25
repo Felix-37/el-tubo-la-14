@@ -1,7 +1,7 @@
 {
   "name": "el-tubo-la-14-backend",
   "version": "1.0.0",
-  "description": "API REST del catálogo de la Cerrajería El Tubo La 14",
+  "description": "API REST de la Cerrajería El Tubo La 14",
   "main": "src/server.js",
   "type": "commonjs",
   "scripts": {

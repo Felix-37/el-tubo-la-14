@@ -5,7 +5,12 @@
 --   * tabla refresh_token: un registro por refresh emitido. Se guarda
 --     solo su hash (SHA-256), nunca el token en claro.
 --   * usuario.eliminado_en: borrado lógico de usuarios.
---   * dos eventos nuevos en la bitácora: CIERRE_SESION y REUSO_TOKEN.
+--   * usuario.clave_cambiada_en: invalida los access emitidos antes de
+--     un cambio de clave.
+--   * tres eventos nuevos en la bitácora: CIERRE_SESION, REUSO_TOKEN y
+--     USUARIO_DATOS.
+--   * índice único ux_usuario_correo_lower (correo sin distinguir
+--     mayúsculas) y regla ck_usuario_nombre_sin_arroba.
 --   * claves de los usuarios de prueba con costo bcrypt 12.
 -- Ejecutar después de 01_esquema.sql y 02_datos_iniciales.sql:
 --   psql -U postgres -d el_tubo_la_14 -f 03_seguridad_tarea4.sql
